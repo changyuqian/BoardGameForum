@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1", shrink-to-fit=no>
+
+     <!-- CSS -->
+    <link href="{{ url_for('static', filename='css/mystyle.css') }}" rel="stylesheet">
+    <link href="{{ url_for('static', filename='css/main.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='css/bootstrap.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='css/style.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='css/animate.css') }}" rel="stylesheet" type="text/css">
+    <link href="{{ url_for('static', filename='css/all.css') }}" rel="stylesheet" type="text/css">
+
+    {% if title %}
+        <title>BoardGame Family - {{ title }}</title>
+    {% else %}
+        <title>BoardGame Family</title>
+    {% endif %}
+</head>
+<body>
+    <!-- ==========header mega navbar=======-->
+    <div class="top-menu-bottom932">
+        <nav class="navbar navbar-default">
+            <div class="container">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false"> <span class="sr-only">Toggle navigation</span> <span class="icon-bar"></span> <span class="icon-bar"></span> <span class="icon-bar"></span> </button>
+                    <a class="navbar-brand" href="#"><img src="/static/image/logo.png" alt="Logo"></a>
+                </div>
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                    <ul class="nav navbar-nav"> </ul>
+                    <ul class="nav navbar-nav navbar-left">
+                        <li><a href="/home">Home</a></li>
+
+                        <li><a href="/post/new">New Discussion</a></li>
+
+                        <li><a href="/sale/new">New Sales</a></li>
+
+                        <li><a href="/about">About</a></li>
+                         </ul>
+                        <ul class="nav navbar-nav navbar-right">
+                        {% if current_user.is_authenticated %}
+                        <li>
+                            <a href="/logout" target="_blank">Logout</a>
+                        </li>
+                        <li>    <a href="/account"><img src="{{ image_file }}" alt="Avatar" class="img-circle" style="width: 50px; height: 50px;"></a></li>
+                       {% else %}
+                        <li><a href="/login" target="_blank">Login/Register</a></li>
+                        {% endif %}
+
+                    </ul>
+                </div>
+                <!-- /.navbar-collapse -->
+            </div>
+            <!-- /.container-fluid -->
+        </nav>
+    </div>
+
+
+    <!--======= welcome section on top background=====-->
+    <section class="welcome-part-one">
+        <div class="container">
+            <div class="welcome-demop102 text-center">
+                <h2>Welcome to Board Game Forum</h2>
+                <h2>Discuss & Share & Trade Games</h2>
+            </div>
+        </div>
+    </section>
+
+    <!-- ======content section/body=====-->
+    <section class="main-content920">
+        <div class="container">
+            <div class="row">
+
+
+                <div class="col-md-9">
+                    <div id="main">
+                        <h5>
+                            {% with messages = get_flashed_messages(with_categories=true) %}
+                            {% if messages %}
+                            {% for category, message in messages %}
+                              <div class="alert alert-{{ category }}">
+                                {{ message }}
+                            </div>
+                            {% endfor %}
+                            {% endif %}
+                            {% endwith %}
+                        </h5>
+                        {% if posts %}
+
+                        <ul class="tab">
+                          <li><a href="#" class="tablinks active" onclick="openCity(event, 'RecentPosts')">Recent Posts</a></li>
+                          <li><a href="#" class="tablinks" onclick="openCity(event, 'HotTopic')">Hot Topics</a></li>
+                          <li><a href="#" class="tablinks" onclick="openCity(event, 'ActiveSales')">Active Sales</a></li>
+                          <li><a href="#" class="tablinks" onclick="openCity(event, 'RecentSales')">Recent Sales</a></li>
+                        </ul>
+
+                        <div id="RecentPosts" class="tabcontent" style="display:block">
+                            <p>
+                                {% block posts %}{% endblock posts %}
+                            </p>
+                        </div>
+
+                        <div id="HotTopic" class="tabcontent">
+                            <p>
+                            {% block most_replied %}{% endblock most_replied %}
+                            </p>
+                        </div>
+                        <div id="ActiveSales" class="tabcontent">
+                            <p>
+                              {% block active_sales %}{% endblock active_sales %}
+                            </p>
+                        </div>
+                        <div id="RecentSales" class="tabcontent">
+                            <p>
+                              {% block sales %}{% endblock sales %}
+                            </p>
+                        </div>
+                        <script>
+                        function openCity(evt, cityName) {
+                            var i, tabcontent, tablinks;
+                            tabcontent = document.getElementsByClassName("tabcontent");
+                            for (i = 0; i < tabcontent.length; i++) {
+                                tabcontent[i].style.display = "none";
+                            }
+                            tablinks = document.getElementsByClassName("tablinks");
+                            for (i = 0; i < tablinks.length; i++) {
+                                tablinks[i].className = tablinks[i].className.replace(" active", "");
+                            }
+                            document.getElementById(cityName).style.display = "block";
+                            evt.currentTarget.className += " active";
+                        }
+                        </script>
+                        {% else %}
+                        {% block content %}{% endblock content %}
+                        {% endif %}
+                    </div>
+                </div>
+                 <aside class="col-md-3 sidebar97239">
+                    <div class="tags-part2398">
+                        <h4>Tags</h4>
+                        <ul>
+                            {% for tag in tags %}
+                            <li><a href="#">{{ tag }}</a></li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    <div class="social-part2189">
+                        <h4>Find us (coming soon)</h4>
+                        <li class="rss-one">
+                            <a href="#" target="_blank">
+                                <strong>
+                                    <span>Subscribe</span>
+                                    <i class="fa fa-rss" aria-hidden="true"></i>
+                                    <br>
+                                    <small>To RSS Feed</small>
+                                </strong>
+                            </a>
+                        </li>
+                        <li class="facebook-two">
+                            <a href="#" target="_blank"> <strong>
+                                <span>Subscribe</span>
+                                <i class="fa fa-facebook" aria-hidden="true"></i>
+                                <br>
+                                <small>To Facebook Feed</small>
+                            </strong> </a>
+                        </li>
+                        <li class="twitter-three">
+                            <a href="#" target="_blank">
+                                <strong>
+                                    <span>Subscribe</span>
+                                    <i class="fa fa-twitter" aria-hidden="true"></i>
+                                    <br>
+                                    <small>To twitter Feed</small>
+                                </strong>
+                            </a>
+                        </li>
+                        <li class="youtube-four">
+                            <a href="#" target="_blank">
+                                <strong>
+                                    <span>Subscribe</span>
+                                    <i class="fa fa-youtube" aria-hidden="true"></i>
+                                    <br>
+                                    <small>To youtube Feed</small>
+                                </strong>
+                            </a>
+                        </li>
+                    </div>
+                </aside>
+            </div>
+        </div>
+    </section>
+   <section class="footer-social">
+        <div class="container">
+            <div class="row">
+                <div class="col-md-6">
+                    <p>Copyright 2020 Board Game Family | <strong>Changyu Qian</strong></p>
+                </div>
+                <div class="col-md-6">
+                    <div class="social-right2389"> <a href="#"><i class="fa fa-twitter-square" aria-hidden="true"></i></a> <a href="#"><i class="fa fa-facebook" aria-hidden="true"></i></a> <a href="#"><i class="fa fa-google-plus" aria-hidden="true"></i></a> <a href="#"><i class="fa fa-youtube" aria-hidden="true"></i></a> <a href="#"><i class="fa fa-skype" aria-hidden="true"></i></a> <a href="#"><i class="fa fa-linkedin" aria-hidden="true"></i></a> <a href="#"><i class="fa fa-rss" aria-hidden="true"></i></a> </div>
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- Optional JavaScript -->
+    <!-- jQuery first, then Popper.js, then Bootstrap JS -->
+    <script src="https://code.jquery.com/jquery-3.2.1.slim.min.js" integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
+
+</body>
+
+</html>

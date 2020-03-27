@@ -1,0 +1,139 @@
+{% extends "layout.html" %}
+{% block posts %}
+{% for post in posts %}
+<article class="question-type2033">
+    <div class="row">
+        <div class="col-md-2">
+             <center>
+                <div><img alt="Avatar" class="img-circle" style="width: 60px; height: 60px;" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}"></div>
+                <div><a class="mr-2" href="#"><i class="fas fa-user"> {{ post.author.username}}</i></a></div>
+             </center>
+        </div>
+        <div class="col-md-8">
+            <div class="right-description893">
+                <div id="que-hedder2983">
+                    <h3><a href="{{ url_for('post', post_id=post.id) }}" target="_blank">{{ post.title }}</a></h3>
+                    <a target="_blank"><i class="fas fa-hashtag">{{ post.tag }}</i></a>
+                </div>
+            </div>
+                <div class="ques-details10018">
+                    <p>{{ post.content | safe | striptags | truncate(400) }}</p>
+                </div>
+                <hr>
+                <div class="ques-icon-info3293">
+                    <i class="fas fa-clock">{{ post.date_posted.strftime('%Y-%m-%d') }}</i>
+                    <a href="#"><i class="fa fa-comment" aria-hidden="true">  {{ post.comments|length }} comments</i></a>
+                    <a href="#"></a><a href="#"><i class="fa fa-bug" aria-hidden="true"> Report</i></a>
+                </div>
+        </div>
+    </div>
+</article>
+{% endfor %}
+{% endblock posts %}
+
+{% block most_replied %}
+{% for post in hot_posts %}
+<article class="question-type2033">
+    <div class="row">
+        <div class="col-md-2">
+             <center>
+                <div><img alt="Avatar" class="img-circle" style="width: 60px; height: 60px;" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}"></div>
+                <div><a class="mr-2" href="#"><i class="fas fa-user"> {{ post.author.username}}</i></a></div>
+             </center>
+        </div>
+        <div class="col-md-8">
+            <div class="right-description893">
+                <div id="que-hedder2983">
+                    <h3><a href="{{ url_for('post', post_id=post.id) }}" target="_blank">{{ post.title }}</a></h3>
+                    <a target="_blank"><i class="fas fa-hashtag">{{ post.tag }}</i></a>
+                </div>
+            </div>
+                <div class="ques-details10018">
+                    <p>{{ post.content | safe | striptags | truncate(400) }}</p>
+                </div>
+                <hr>
+                <div class="ques-icon-info3293">
+                    <i class="fas fa-clock">{{ post.date_posted.strftime('%Y-%m-%d') }}</i>
+                    <a href="#"><i class="fa fa-comment" aria-hidden="true">  {{ post.comments|length }} comments</i></a>
+                    <a href="#"></a><a href="#"><i class="fa fa-bug" aria-hidden="true"> Report</i></a>
+                </div>
+        </div>
+    </div>
+</article>
+{% endfor %}
+{% endblock most_replied %}
+
+{% block sales %}
+{% for sale in sales %}
+<article class="question-type2033">
+    <div class="row">
+        <div class="col-md-2">
+             <center>
+                <div><img alt="Avatar" class="img-circle" style="width: 60px; height: 60px;" src="{{ url_for('static', filename='profile_pics/' + sale.author.image_file) }}"></div>
+                <div><a class="mr-2" href="#"><i class="fas fa-user"> {{ sale.author.username}}</i></a></div>
+             </center>
+        </div>
+        <div class="col-md-8">
+            <div class="right-description893">
+                <div id="que-hedder2983">
+                    <h3><a href="{{ url_for('sale', sale_id=sale.id) }}" target="_blank">{{ sale.title }}</a></h3>
+                    <a target="_blank"><i class="fas fa-euro-sign">{{ sale.price }}</i></a>
+                </div>
+            </div>
+                <div class="ques-details10018">
+                    <p>{{ sale.content | safe | striptags | truncate(400) }}</p>
+                </div>
+                <hr>
+                <div class="ques-icon-info3293">
+                    <a href="#"><i class="fas fa-shopping-cart">
+                        {% if sale.is_active %}
+                        </i> active</i>
+                        {% else %}
+                        </i> sold </i>
+                        {% endif %}
+                    </a>
+                    <i class="fas fa-clock">{{ sale.date_posted.strftime('%Y-%m-%d') }}</i>
+                    <a href="#"></a><a href="#"><i class="fa fa-bug" aria-hidden="true"> Report</i></a>
+                </div>
+        </div>
+    </div>
+</article>
+{% endfor %}
+{% endblock sales %}
+
+{% block active_sales %}
+{% for sale in sales %}
+{% if sale.is_active %}
+<article class="question-type2033">
+    <div class="row">
+        <div class="col-md-2">
+             <center>
+                <div><img alt="Avatar" class="img-circle" style="width: 60px; height: 60px;" src="{{ url_for('static', filename='profile_pics/' + sale.author.image_file) }}"></div>
+                <div><a class="mr-2" href="#"><i class="fas fa-user"> {{ sale.author.username}}</i></a></div>
+             </center>
+        </div>
+        <div class="col-md-8">
+            <div class="right-description893">
+                <div id="que-hedder2983">
+                    <h3><a href="{{ url_for('sale', sale_id=sale.id) }}" target="_blank">{{ sale.title }}</a></h3>
+                    <a target="_blank"><i class="fas fa-euro-sign">{{ sale.price }}</i></a>
+                </div>
+            </div>
+                <div class="ques-details10018">
+                    <p>{{ sale.content | safe | striptags | truncate(400) }}</p>
+                </div>
+                <hr>
+                <div class="ques-icon-info3293">
+                    <a href="#"><i class="fas fa-shopping-cart">
+                        </i> active</i>
+                    </a>
+                    <i class="fas fa-clock">{{ sale.date_posted.strftime('%Y-%m-%d') }}</i>
+                    <a href="#"></a><a href="#"><i class="fa fa-bug" aria-hidden="true"> Report</i></a>
+                </div>
+        </div>
+    </div>
+</article>
+{% endif %}
+{% endfor %}
+{% endblock active_sales %}
+</html>

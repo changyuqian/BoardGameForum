@@ -1,0 +1,35 @@
+{% extends "layout.html" %}
+{% block content %}
+
+  <article class="media content-section">
+    <img alt="Avatar" class="img-circle" style="width: 60px; height: 60px;" src="{{ url_for('static', filename='profile_pics/' + sale.author.image_file) }}">
+        <div class="article-metadata">
+        <div>
+        <a class="mr-2" href="#"><i class="fas fa-user"> {{ sale.author.username }}</i></a>
+        </div>
+      </div>
+    <div class="media-body">
+        <h2 class="article-title">{{ sale.title }}</h2>
+        <a target="_blank"><i class="fas fa-euro-sign">{{ sale.price }}</i></a>
+    <div>
+        <img src="{{ url_for('static', filename='item_pics/' + sale.image_file) }}">
+    </div>
+        <div class="ques-details10018">
+            <p>{{ sale.content | safe | striptags }}</p>
+        </div>
+        <div>
+          <small class="text-muted"><i class="fas fa-clock">{{ sale.date_posted.strftime('%Y-%m-%d') }}</i></small>
+          <a href="#"><i class="fas fa-shopping-cart">
+            {% if sale.is_active %}
+            </i> active</i>
+              {% if sale.author == current_user %}
+            <a class="btn btn-warning btn-sm m-1" href="{{ url_for('sold', sale_id=sale.id) }}">Sold</a>
+            {% endif %}
+            {% else %}
+            </i> sold </i>
+            {% endif %}
+           </a>
+        </div>
+    </div>
+  </article>
+{% endblock content %}

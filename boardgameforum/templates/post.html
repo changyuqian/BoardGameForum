@@ -1,0 +1,82 @@
+{% extends "layout.html" %}
+{% block content %}
+
+  <article class="media content-section">
+    <img alt="Avatar" class="img-circle" style="width: 60px; height: 60px;" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+    <div class="media-body">
+      <div class="article-metadata">
+          <div>
+          <a class="mr-2" href="#"><i class="fas fa-user">{{ post.author.username }}</i></a>
+          </div>
+      </div>
+        <h2 class="article-title">{{ post.title }}</h2>
+        <a target="_blank"><i class="fas fa-hashtag">{{ post.tag }}</i></a>
+        <div class="ques-details10018">
+            <p>{{ post.content | safe | striptags }}</p>
+        </div>
+      <div>
+        <small class="text-muted"><i class="fas fa-clock">{{ post.date_posted.strftime('%Y-%m-%d') }}</i></small>
+          </div>
+        {% if post.author == current_user %}
+          <div >
+            <a class="btn btn-secondary  btn-warning btn-sm mt-1 mb-1" href="{{ url_for('update_post', post_id=post.id) }}">Update</a>
+            <a class="btn btn-danger btn-sm m-1" href="{{ url_for('delete_post', post_id=post.id) }}">Delete</a>
+          </div>
+        {% endif %}
+    </div>
+  </article>
+  <div class="content-section">
+    <h4>Comments</h4>
+    {% if current_user.is_authenticated %}
+    <div class="media">
+        <img alt="Avatar" class="img-circle" style="width: 60px; height: 60px;" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+      <div class="media-body">
+        <form method="POST" action="">
+          <div class="article-metadata">
+            <div class="form-group">
+                <!--{{ form.content.label(class="form-control-label") }}-->
+                  {% if form.content.errors %}
+                      {{ form.content(class="form-control form-control-lg is-invalid", rows="3", placeholder="Leave your comment here") }}
+                      <div class="invalid-feedback">
+                          {% for error in form.content.errors %}
+                              <span>{{ error }}</span>
+                          {% endfor %}
+                      </div>
+                  {% else %}
+                      {{ form.content(class="form-control form-control-lg", rows="3", placeholder="Leave your comment here") }}
+                  {% endif %}
+              </div>
+            {{ form.csrf_token }}
+            {{ form.submit(class="btn btn-success btn-outline-info") }}
+          </div>
+        </form>
+      </div>
+    </div>
+    {% else %}
+    <div class="container">
+      <div class="row">
+        <div class="col-12"><p class="text-center"><b>You need to be logged in to be able to comment.</b></p></div>
+      </div>
+    </div>
+    {% endif %}
+    {% for comment in post.comments %}
+      <div class="media">
+        <img class="img-circle" style="width: 60px; height: 60px;" src="{{ url_for('static', filename='profile_pics/' + post.author.image_file) }}">
+        <div class="media-body">
+          <div class="article-metadata">
+            <div class="container">
+              <div class="row">
+                <div class="col-6"><b>{{ comment.user.username }}</b></div>
+              </div>
+              <div class="row">
+                <div class="col-sm"><p class="text-justify">{{ comment.content }}</p></div>
+                  <i class="fas fa-clock">{{ comment.date_posted.strftime('%Y-%m-%d %H:%M') }}</i>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    {% endfor %}
+  </div>
+
+{% endblock content %}

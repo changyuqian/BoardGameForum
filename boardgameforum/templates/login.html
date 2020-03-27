@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html >
+<head>
+  <meta charset="UTF-8">
+  <title>Login</title>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/normalize/5.0.0/normalize.min.css">
+   <link rel="stylesheet" href="{{ url_for('static', filename='css/loginstyle.css') }}">
+
+  
+</head>
+
+<body>
+
+<div class="text-center">
+
+  <h1>
+    {% with messages = get_flashed_messages(with_categories=true) %}
+  {% if messages %}
+    {% for category, message in messages %}
+      <div class="alert alert-{{ category }}">
+        {{ message }}
+      </div>
+    {% endfor %}
+  {% endif %}
+{% endwith %}
+  </h1>
+
+</div>
+<div class="modal-wrap">
+
+  <div class="modal-bodies">
+    <div class="modal-body modal-body-step-1 is-showing">
+
+      <div class="title">Log In</div>
+
+      <form method="POST" action="">
+        {{ form.hidden_tag() }}
+        <fieldset class="form-group">
+          <div class="form-group">
+            {{ form.email.label(class="form-control-label") }}
+            {% if form.email.errors %}
+                {{ form.email(class="form-control form-control-lg is-invalid") }}
+                <div class="invalid-feedback">
+                    {% for error in form.email.errors %}
+                        <span>{{ error }}</span>
+                    {% endfor %}
+                </div>
+            {% else %}
+                {{ form.email(class="form-control form-control-lg") }}
+            {% endif %}
+        </div>
+          <div class="form-group">
+          {{ form.password.label(class="form-control-label") }}
+          {% if form.password.errors %}
+              {{ form.password(class="form-control form-control-lg is-invalid") }}
+              <div class="invalid-feedback">
+                  {% for error in form.password.errors %}
+                      <span>{{ error }}</span>
+                  {% endfor %}
+              </div>
+          {% else %}
+              {{ form.password(class="form-control form-control-lg") }}
+          {% endif %}
+        </div>
+       </fieldset>
+
+        <div class="text-center">
+          <div class="form-group">
+           {{ form.submit(class="button btn-outline-info") }}
+            <a href="register" target="_blank">
+             <div class="button">Sign up</div>
+            </a>
+          </div>
+      </div>
+        <small class="text-muted ml-2">
+          <a href="#">Forgot Password?</a>
+        </small>
+      </form>
+
+    </div>
+
+ 
+  </div>
+</div>
+  <script src='https://code.jquery.com/jquery-2.2.4.min.js'></script>
+
+    
+
+</body>
+</html>
